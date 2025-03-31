@@ -1,0 +1,121 @@
+{% extends 'hospital/patient_base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<head>
+  <style>
+    a:link { text-decoration: none; }
+    .note { text-align: center; height: 80px; background: linear-gradient(to left, #d4edda, #ffffff); color: #000; font-weight: bold; line-height: 80px; border-radius: 10px; }
+    .form-content { padding: 5%; border: 2px solid #c3e6cb; margin-bottom: 2%; background-color: #f0fff4; border-radius: 15px; }
+    .form-control { border-radius: 1.5rem; background-color: #ffffff; color: #000000; border: 1px solid #c3e6cb; }
+    .form-control::placeholder { color: #555555; }
+    .form-label { color: #000000; font-weight: bold; }
+    .btnSubmit { border: none; border-radius: 1.5rem; padding: 1%; width: 20%; cursor: pointer; background: #d4edda; color: #000; font-weight: bold; }
+    .btnSubmit:hover { background: #c3e6cb; }
+  </style>
+</head>
+
+{% if message %}
+<script>
+  alert("{{ message }}");
+</script>
+{% endif %}
+
+<form method="POST">
+  {% csrf_token %}
+  <div class="container register-form">
+    <div class="form">
+      <div class="note">
+        <p>Book Appointment</p>
+      </div>
+      <div class="form-content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-label">Symptom</label>
+              {{ appointmentForm.symptom|add_class:"form-control" }}
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Doctor</label>
+              {{ appointmentForm.doctorId|add_class:"form-control" }}
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Appointment Date</label>
+              <input type="date" name="appointmentDate" class="form-control" placeholder="Select Appointment Date">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Appointment Time</label>
+              <input type="time"  class="form-control" placeholder="Select Appointment Time">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Gender</label>
+              <select name="gender" class="form-control">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Age</label>
+              {{ appointmentForm.age|add_class:"form-control" }}
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Neighbourhood</label>
+              {{ appointmentForm.neighbourhood|add_class:"form-control" }}
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Scholarship</label>
+              <select name="scholarship" class="form-control">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Hypertension</label>
+              <select name="hypertension" class="form-control">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Diabetes</label>
+              <select name="diabetes" class="form-control">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Alcoholism</label>
+              <select name="alcoholism" class="form-control">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Handicap</label>
+              <select name="handicap" class="form-control">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+        <button type="submit" class="btnSubmit">Book</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+{% endblock %}

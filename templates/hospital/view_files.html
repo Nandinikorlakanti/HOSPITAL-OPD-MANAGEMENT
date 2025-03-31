@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Files</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            margin: auto;
+            width: 50%;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Uploaded Files</h2>
+    <table>
+        <tr>
+            <th>File Name</th>
+            <th>Download</th>
+        </tr>
+        {% for file in files %}
+        <tr>
+            <td>{{ file.file.name }}</td>
+            <td><a href="{{ file.file.url }}" download>Download</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'upload_file' %}">
+        <button>Upload More Files</button>
+    </a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Patient Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #4CAF50;
+      padding: 20px;
+      color: white;
+      box-sizing: border-box;
+    }
+
+    .content {
+      flex-grow: 1;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .header {
+      background: #3b74b9;
+      padding: 15px;
+      color: white;
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #4f5905;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    .logout {
+      float: right;
+      color: white;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  
+  <!-- Main Content -->
+  <div class="content">
+
+    <h2 class="header">Patient Dashboard</h2>
+
+    <!-- Doctor Info Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Details</th>
+          <th>Information</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Doctor Name</td>
+          <td>{{ doctorName }}</td>
+        </tr>
+        <tr>
+          <td>Doctor Mobile</td>
+          <td>{{ doctorMobile }}</td>
+        </tr>
+        <tr>
+          <td>Doctor Address</td>
+          <td>{{ doctorAddress }}</td>
+        </tr>
+        <tr>
+          <td>Doctor Department</td>
+          <td>{{ doctorDepartment }}</td>
+        </tr>
+        <tr>
+          <td>Admit Date</td>
+          <td>{{ admitDate }}</td>
+        </tr>
+        <tr>
+          <td>Symptoms</td>
+          <td>{{ symptoms }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</body>
+
+</html>

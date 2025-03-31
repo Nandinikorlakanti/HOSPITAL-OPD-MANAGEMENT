@@ -1,0 +1,208 @@
+
+{% extends 'hospital/patient_base.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        a:link {
+            text-decoration: none;
+        }
+        h6 {
+            text-align: center;
+        }
+        .container{
+            padding-top: 2rem;
+        }
+        .row {
+            margin: 100px;
+        }
+    </style>
+</head>
+
+<div class="container">
+
+    <!-- Doctor Selection Dropdown -->
+    {% if doctors %}
+    <label for="doctor-select">Select a Doctor:</label>
+    <select id="doctor-select" style="margin-bottom:2rem; padding:10px;">
+        <option value="">-- Select Doctor --</option>
+        {% for doctor in doctors %}
+        <option value="{{ doctor.id }}">{{ doctor.get_name }}</option>
+        {% endfor %}
+    </select>
+    {% endif %}
+
+    <!-- Appointment List -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h6 class="panel-title">Doctor's Appointments</h6>
+        </div>
+        <table class="table table-hover" id="appointment-table">
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Symptoms</th>
+                    <th>Appointment Date</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Time</th>
+                    <th>Estimated Service Time</th>
+                </tr>
+            </thead>
+            <tbody id="appointment-body">
+                <!-- Data will be dynamically loaded here -->
+            </tbody>
+        </table>
+        <p id='summarize'>Total Time:</p>
+    </div>
+
+    <!-- No Appointment Message -->
+    <h4 id="no-appointment" style="text-align: center; color: red; display: none;">No Appointments Found!</h4>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#doctor-select').change(function () {
+            const doctorId = $(this).val();
+
+            // Clear the table and message
+            $('#appointment-body').empty();
+            $('#no-appointment').hide();
+            $('#summarize').text(`
+            Your Estimation time is 
+        `)
+            if (!doctorId) return;
+
+            // AJAX request to fetch filtered appointments
+            $.ajax({
+                url: "{% url 'filter_appointments' %}",
+                type: "GET",
+                data: { doctor_id: doctorId },
+                success: function (response) {
+                    const appointments = response.data;
+
+                    if (appointments.length === 0) {
+                        $('#no-appointment').show();
+                        return;
+                    }
+
+                    
+                    let totalTime = 0
+                    appointments.forEach(function (appointment) {
+                        $('#appointment-body').append(`
+                            <tr>
+                                <td>${appointment.patient_name}</td>
+                                <td>${appointment.symptom}</td>
+                                <td>${appointment.appointment_date}</td>
+                                <td>${appointment.age}</td>
+                                <td>${appointment.gender}</td>
+                                <td>${appointment.time}</td>
+                                <td>${appointment.service_time} min</td>
+    
+                            </tr>
+                        `);
+                        totalTime += appointment.service_time
+                        $('#summarize').text(`
+                        Your Estimation time is ${totalTime} min
+                    `)
+                    });
+                    
+                },
+                error: function () {
+                    alert("Error fetching appointments.");
+                }
+            });
+        });
+    });
+</script>
+
+
+{% endblock content %}
+
+
+
+{% comment %} {% extends 'hospital/patient_base.html' %}
+{% block content %}
+{%load static%}
+
+<head>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+  <style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+    h6 {
+      text-align: center;
+    }
+
+    .row {
+      margin: 100px;
+    }
+  </style>
+</head>
+
+
+<div class="container">
+
+    <form  action="/searchdoctor" method="get" style="margin-left:70%;" class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" name="query" id="query" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+ 
+    {%if doctors%}
+    <select style="margin-bottom:2rem;padding:10px">
+        {% for doctor in doctors %}
+        <option>{{doctor}}</option>
+        {%endfor%}
+    </select>
+    {%endif%}
+
+
+
+  {% if doctors %}
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h6 class="panel-title"> Total Doctor List</h6>
+    </div>
+    
+    <table class="table table-hover" id="dev-table">
+        <thead>
+          <tr>
+  
+            <th>Name</th>
+            <th>Profile Picture</th>
+            <th>Mobile</th>
+            <th>Appointment Time</th>
+            <th>Expected Service Time</th>
+           
+          </tr>
+        </thead>
+        {% if data%}
+        {% for a,p in patients %}
+        <tr>
+  
+          <td> {{p.get_name}}</td>
+          <td> <img src="{% static p.profile_pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
+          <td>{{p.mobile}}</td>
+          <td>{{a.time}}</td>
+        </tr>
+        {% endfor %}
+        {%endif%}
+      </table>
+  </div>
+  {%else%}
+  <br><br><br>
+  <h4 style="text-align: center;color: red;">No Doctor Found !!!</h4>
+  {% endif %}
+
+
+</div>
+
+{% endblock content %} {% endcomment %}

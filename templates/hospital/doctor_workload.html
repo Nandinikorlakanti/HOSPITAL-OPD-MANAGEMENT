@@ -1,0 +1,58 @@
+{% extends 'hospital/doctor_base.html' %}
+{% comment %} {% load static %}  <!-- Ensure static files are loaded --> {% endcomment %}
+{% load widget_tweaks %}
+
+{%load static%}
+
+{% block content %}
+<br>
+<br>
+<div class="container">
+  {% if apPatients %}
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h6 class="panel-title">Your Total Patient List</h6>
+    </div>
+    <table class="table table-hover" id="dev-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Profile Picture</th>
+          <th>Symptoms</th>
+          <th>Mobile</th>
+          <th>Workload</th>
+        </tr>
+      </thead>
+      {% for a,p in apPatients %}
+      <tr>
+        <td>{{ p.get_name }}</td>
+        <td>
+          {% if p.profile_pic %}
+            <img src="{% static p.profile_pic.url %}" alt="Profile Pic" height="40px" width="40px" /> 
+          {% else %}
+            No Image
+          {% endif %}
+        </td>
+        <td>{{ p.symptoms }}</td>
+        <td>{{ p.mobile }}</td>
+        <td>
+          {% if p.workload.0 == 1 %}
+            Show
+          {% else %}
+            No Show
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% else %}
+  <div class="jumbotron" style="margin-top:20px;">
+    <h1 class="display-4 text-center">Doctor Workload</h1>
+    <p class="lead text-center">This is a placeholder for workload analysis or future enhancements.</p>
+    <hr class="my-4">
+    <p class="text-center">Workload details will be displayed here soon.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock content %}
